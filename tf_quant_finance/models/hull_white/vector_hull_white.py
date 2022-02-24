@@ -15,7 +15,7 @@
 
 """Vector of correlated Hull-White models with time-dependent parameters."""
 
-from typing import Callable, Union, Tuple, Optional
+from typing import Callable, Union, Tuple, Optional, List
 
 import tensorflow.compat.v2 as tf
 
@@ -327,6 +327,7 @@ class VectorHullWhiteModel(generic_ito_process.GenericItoProcess):
       time_step: Optional[types.RealTensor] = None,
       times_grid: Optional[types.RealTensor] = None,
       normal_draws: Optional[types.RealTensor] = None,
+      watch_params: Optional[List[types.RealTensor]] = None,
       validate_args: bool = False,
       name: Optional[str] = None) -> types.RealTensor:
     """Returns a sample of paths from the correlated Hull-White process.
@@ -431,6 +432,7 @@ class VectorHullWhiteModel(generic_ito_process.GenericItoProcess):
                                      skip=skip,
                                      times_grid=times_grid,
                                      normal_draws=normal_draws,
+                                     watch_params=watch_params,
                                      dtype=self._dtype)
       if normal_draws is not None:
         normal_draws = tf.convert_to_tensor(normal_draws, dtype=self._dtype,
@@ -460,6 +462,7 @@ class VectorHullWhiteModel(generic_ito_process.GenericItoProcess):
       time_step: Optional[types.RealTensor] = None,
       times_grid: Optional[types.RealTensor] = None,
       normal_draws: Optional[types.RealTensor] = None,
+      watch_params: Optional[List[types.RealTensor]] = None,
       validate_args: bool = False,
       name: Optional[str] = None
       ) -> Tuple[types.RealTensor, types.RealTensor]:
@@ -566,6 +569,7 @@ class VectorHullWhiteModel(generic_ito_process.GenericItoProcess):
           time_step=time_step,
           times_grid=times_grid,
           normal_draws=normal_draws,
+          watch_params=watch_params,
           validate_args=validate_args,
           seed=seed)
       short_rate = tf.expand_dims(rate_paths, axis=1)
